@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101010">
+<meta name="description" content="HW Garage — Hot Wheels ve diecast koleksiyon modellerini keşfet.">
+<title>HW Garage | Diecast Store</title>
+<style>
+:root {
+  --bg: #101010;
+  --panel: #191919;
+  --orange: #ff5b24;
+  --text: #f7f7f7;
+  --muted: #a5a5a5;
+  --border: #303030;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; }
+button, select { cursor: pointer; }
+.wrap { width: min(1120px, 90%); margin: auto; }
+
+header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-size: 23px; font-weight: 900; letter-spacing: -1px; }
+.logo span { color: var(--orange); }
+.nav-tag {
+  border: 1px solid #57301f;
+  color: #ff9b76;
+  padding: 9px 13px;
+  border-radius: 30px;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+.hero {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(ellipse at 80% 40%, #52220f 0, transparent 42%),
+    linear-gradient(115deg, #1b1b1b, #101010 72%);
+  border-bottom: 1px solid var(--border);
+}
+.hero-inner { padding: 62px 0; }
+.eyebrow {
+  color: var(--orange);
+  letter-spacing: 3px;
+  font-size: 11px;
+  font-weight: 800;
+}
+h1 {
+  font-size: clamp(44px, 8vw, 78px);
+  line-height: .94;
+  letter-spacing: -4px;
+  margin: 20px 0;
+}
+h1 span { color: var(--orange); }
+.hero p {
+  color: #c0c0c0;
+  line-height: 1.8;
+  max-width: 450px;
+}
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 7px;
+  padding: 14px 18px;
+  font-weight: 800;
+  margin-top: 14px;
+  transition: .2s;
+}
+.primary:hover { background: #ff7548; transform: translateY(-2px); }
+section.catalog { padding: 48px 0 60px; }
+.section-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+h2 { font-size: 28px; margin: 0 0 8px; }
+.muted { color: var(--muted); font-size: 13px; }
+.filters {
+  display: flex;
+  gap: 10px;
+  margin: 24px 0;
+}
+input, select {
+  color: white;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 13px;
+}
+input { flex: 1; min-width: 100px; }
+select { max-width: 100%; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.card {
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  transition: .2s;
+}
+.card:hover { border-color: #8c4528; transform: translateY(-4px); }
+.photo {
+  height: 205px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse, #373737, #1a1a1a 70%);
+  overflow: hidden;
+}
+.photo img { width: 100%; height: 100%; object-fit: contain; }
+.car-emoji { font-size: 75px; filter: drop-shadow(0 12px 8px #0009); }
+.stock {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 7px 9px;
+  border-radius: 5px;
+  background: #111e;
+  color: #a3f3b9;
+  font-size: 10px;
+  font-weight: 800;
+}
+.stock.sold { color: #ff9b9b; }
+.card-body { padding: 17px; }
+.category {
+  color: var(--orange);
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+.card h3 { font-size: 18px; margin: 10px 0; }
+.description {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 40px;
+}
+.price { font-size: 25px; font-weight: 900; margin: 16px 0; }
+.order {
+  display: block;
+  text-align: center;
+  border-radius: 7px;
+  padding: 13px 8px;
+  background: var(--orange);
+  font-weight: 800;
+  font-size: 13px;
+}
+.order:hover { background: #ff7548; }
+.order.disabled { background: #343434; color: #aaa; pointer-events: none; }
+.no-results {
+  grid-column: 1 / -1;
+  padding: 45px 10px;
+  color: var(--muted);
+  text-align: center;
+}
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 13px;
+  padding: 0 0 55px;
+}
+.benefit {
+  background: #171717;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+}
+.benefit b { display: block; margin-bottom: 8px; }
+.benefit p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0; }
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+footer strong { color: white; }
+@media (max-width: 760px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .photo { height: 165px; }
+  .benefits { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .wrap { width: 92%; }
+  header { height: 62px; }
+  .logo { font-size: 20px; }
+  .nav-tag { font-size: 9px; padding: 8px; }
+  .hero { min-height: 350px; }
+  h1 { letter-spacing: -2px; }
+  .grid { grid-template-columns: 1fr; }
+  .photo { height: 220px; }
+  .filters { flex-direction: column; }
+  select { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <a class="logo" href="#">HW <span>GARAGE.</span></a>
+  <span class="nav-tag">DIECAST COLLECTOR STORE</span>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-inner">
+    <div class="eyebrow">COLLECT YOUR DREAM CAR</div>
+    <h1>GARAGE'INI<br><span>KEŞFET.</span></h1>
+    <p>Diecast tutkunları için özel modeller. Bir sonraki favori aracını bul, detayları incele ve sipariş için bize ulaş.</p>
+    <a class="primary" href="#koleksiyon">MODELLERİ KEŞFET ↘</a>
+  </div>
+</div>
+
+<section class="catalog" id="koleksiyon">
+  <div class="wrap">
+    <div class="section-top">
+      <div>
+        <h2>Garajdaki Modeller</h2>
+        <div class="muted">Favorini bul. Koleksiyonuna ekle.</div>
+      </div>
+      <span class="muted" id="count">0 model</span>
+    </div>
+
+    <div class="filters">
+      <input id="search" type="search" placeholder="🔎 Model ara..." aria-label="Model ara">
+      <select id="category" aria-label="Kategori seç">
+        <option value="all">Tüm kategoriler</option>
+        <option value="JDM">JDM</option>
+        <option value="Supercar">Supercar</option>
+        <option value="Muscle">Muscle</option>
+        <option value="Diğer">Diğer</option>
+      </select>
+      <select id="sort" aria-label="Fiyata göre sırala">
+        <option value="featured">Öne çıkanlar</option>
+        <option value="low">Fiyat: artan</option>
+        <option value="high">Fiyat: azalan</option>
+      </select>
+    </div>
+
+    <div class="grid" id="products"></div>
+  </div>
+</section>
+
+<div class="wrap benefits">
+  <div class="benefit">
+    <b>🏁 Koleksiyon ruhu</b>
+    <p>Diecast meraklıları için modelleri tek yerde keşfet.</p>
+  </div>
+  <div class="benefit">
+    <b>💬 Kolay sipariş</b>
+    <p>Ürünle ilgili bilgi almak için WhatsApp'tan mesaj gönder.</p>
+  </div>
+  <div class="benefit">
+    <b>📦 Stok kontrolü</b>
+    <p>Ürün kartlarındaki stok etiketlerini kontrol et.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <strong>HW GARAGE.</strong><br>
+    Küçük arabalar, büyük tutkular.<br>
+    © <span id="year"></span> HW Garage. Tüm hakları saklıdır.<br>
+    Sipariş öncesinde ürünün stok durumunu ve teslimat detaylarını teyit et.
+  </div>
+</footer>
+
+<script>
+/*
+  MAĞAZANI ÖZELLEŞTİR:
+  1. Aşağıdaki örnek ürünleri kendi modellerinle değiştir.
+  2. Fiyatları TL cinsinden yaz.
+  3. image alanına ürün fotoğrafının doğrudan bağlantısını ekle.
+  4. whatsappNumber alanına kendi numaranı ülke koduyla yaz.
+     Örnek format: 905XXXXXXXXX (başında + işareti yok).
+*/
+const whatsappNumber = "905XXXXXXXXX";
+
+const products = [
+  {
+    id: 1,
+    name: "Nissan Skyline GT-R",
+    category: "JDM",
+    price: 250,
+    description: "JDM efsanesi • Koleksiyon modeli",
+    image: "",
+    icon: "🏎️",
+    available: true
+  },
+  {
+    id: 2,
+    name: "Porsche 911 GT3",
+    category: "Supercar",
+    price: 220,
+    description: "Sportif tasarım • Garaj seçimi",
+    image: "",
+    icon: "🏁",
+    available: true
+  },
+  {
+    id: 3,
+    name: "Ford Mustang",
+    category: "Muscle",
+    price: 180,
+    description: "Amerikan klasiği • Güçlü stil",
+    image: "",
+    icon: "🚘",
+    available: true
+  }
+];
+
+const money = value =>
+  Number(value).toLocaleString("tr-TR") + " TL";
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function orderLink(product) {
+  const message =
+    `Merhaba! ${product.name} modeliyle ilgileniyorum. ` +
+    `İlan fiyatı: ${money(product.price)}. Stok ve teslimat ` +
+    `bilgisi alabilir miyim?`;
+
+  return "https://wa.me/" + whatsappNumber +
+    "?text=" + encodeURIComponent(message);
+}
+
+function render() {
+  const query = document.getElementById("search")
+    .value.trim().toLocaleLowerCase("tr-TR");
+  const category = document.getElementById("category").value;
+  const sort = document.getElementById("sort").value;
+
+  let list = products.filter(product =>
+    product.name.toLocaleLowerCase("tr-TR").includes(query) &&
+    (category === "all" || product.category === category)
+  );
+
+  if (sort === "low") list.sort((a, b) => a.price - b.price);
+  if (sort === "high") list.sort((a, b) => b.price - a.price);
+
+  document.getElementById("count").textContent =
+    list.length + " model";
+
+  const grid = document.getElementById("products");
+
+  if (list.length === 0) {
+    grid.innerHTML =
+      '<div class="no-results">Aramana uygun model bulunamadı.</div>';
+    return;
+  }
+
+  grid.innerHTML = list.map(product => {
+    const photo = product.image
+      ? `<img src="${escapeHTML(product.image)}"
+           alt="${escapeHTML(product.name)}"
+           loading="lazy"
+           onerror="this.style.display='none';this.nextElementSibling.hidden=false">
+         <span class="car-emoji" hidden>${escapeHTML(product.icon)}</span>`
+      : `<span class="car-emoji">${escapeHTML(product.icon)}</span>`;
+
+    return `
+      <article class="card">
+        <div class="photo">
+          ${photo}
+          <span class="stock ${product.available ? "" : "sold"}">
+            ${product.available ? "● STOKTA" : "● TÜKENDİ"}
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="category">${escapeHTML(product.category)}</div>
+          <h3>${escapeHTML(product.name)}</h3>
+          <div class="description">${escapeHTML(product.description)}</div>
+          <div class="price">${money(product.price)}</div>
+          ${product.available
+            ? `<a class="order" href="${orderLink(product)}"
+                 target="_blank" rel="noopener noreferrer">
+                 WHATSAPP'TAN SİPARİŞ ↗
+               </a>`
+            : `<span class="order disabled">ŞU AN STOKTA YOK</span>`
+          }
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("category").addEventListener("change", render);
+document.getElementById("sort").addEventListener("change", render);
+document.getElementById("year").textContent = new Date().getFullYear();
+
+render();
+</script>
+</body>
+</html>
